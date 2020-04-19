@@ -30,6 +30,34 @@ const getUserById = (request, response) => {
     });
 }
 
+const getUserDetail = (request, response) => {
+  if(request.session.loggedin){
+    let username = request.session.username;
+    User.findAll({ where: {"username": username } })
+        .then(data => {
+          if(data.length < 1 ){
+            response.status(403).json({
+                "status": "FAILED",
+                "message": "Invalid User"
+            })
+          }else{
+            data.password = undefined;
+            response.status(200).json(data);
+          }
+        })
+        .catch(err => {
+          response.status(500).send({
+            message:
+              err.message || "Some error occurred while login user"
+          });
+        });
+  } else {
+     response.status(403).json({
+          "status": "FAILED",
+          "message": "Invalid User"
+     })
+  }
+}
 
 const createUser = (request, response) => {
     let user = request.body
@@ -78,5 +106,6 @@ module.exports = {
   getUsers,
   getUserById,
   createUser,
-  bulkCreateUser
+  bulkCreateUser,
+  getUserDetail
 }
