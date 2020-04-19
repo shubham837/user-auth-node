@@ -1,0 +1,4 @@
+FROM postgres:9.5
+
+RUN mkdir -p /tmp
+ADD compose/postgres/init.sh /docker-entrypoint-initdb.d/

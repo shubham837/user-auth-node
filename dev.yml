@@ -1,0 +1,24 @@
+version: '2'
+
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/postgres/Dockerfile-dev
+    environment:
+    - POSTGRES_USER=postgres
+    ports:
+    - "5432:5432"
+  express:
+    build:
+      context: .
+      dockerfile: ./compose/express/Dockerfile-dev
+    command: node app.js
+    depends_on:
+    - postgres
+    volumes:
+    - .:/usr/src/app
+    ports:
+    - "3000:3000"
+    links:
+    - postgres

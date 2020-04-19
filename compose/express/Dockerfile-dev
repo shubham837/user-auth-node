@@ -1,0 +1,17 @@
+FROM node:10
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+# Requirements have to be pulled and installed here, otherwise caching won't work
+COPY package.json /usr/src/app
+
+RUN npm install /package.json
+COPY . .
+
+COPY compose/express/entrypoint.sh /entrypoint.sh
+RUN sed -i 's/\r//' /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+
+ENTRYPOINT ["/entrypoint.sh"]
