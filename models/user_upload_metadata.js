@@ -1,13 +1,11 @@
 'use strict'
 
-var sequelize = require('sequelize');
 const UserUploadMetadata = (sequelize, Sequelize) => {
-    const {INTEGER, STRING, FLOAT, BOOLEAN, DATE} = Sequelize
-    const UploadMetadata = sequelize.define('users', {
+    const UploadMetadata = sequelize.define('user_upload_metadata', {
         id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
-        name: {type: Sequelize.String},
-        url: {type: Sequelize.String},
-        created_by: {type:Sequelize.String}
+        file_name: {type: Sequelize.STRING, field: 'file_name'},
+        url: {type: Sequelize.STRING},
+        created_by: {type:Sequelize.STRING},
         created_at: {type: Sequelize.DATE, field: 'created_at'},
         updated_at: {type: Sequelize.DATE, field: 'updated_at'}
     },{

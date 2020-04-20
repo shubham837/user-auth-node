@@ -73,9 +73,7 @@ User.getUserById = function getUserById(userId){
 */
 
 
-var sequelize = require('sequelize');
 const User = (sequelize, Sequelize) => {
-    const {INTEGER, STRING, FLOAT, BOOLEAN, DATE} = Sequelize
     const User = sequelize.define('users', {
         id: {type: Sequelize.INTEGER, primaryKey: true, autoIncrement: true},
         username: {type: Sequelize.STRING, allowNull: false},

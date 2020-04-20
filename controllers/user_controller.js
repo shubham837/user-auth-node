@@ -105,9 +105,6 @@ const bulkCreateUser = (request, response) => {
           });
         });
 
-
-
-
 }
 
 module.exports = {

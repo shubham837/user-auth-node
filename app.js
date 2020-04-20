@@ -1,13 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
+const session = require('express-session')
 const port = 3000
 const HOST = '0.0.0.0';
 
 const db = require('./db/config')
 
 const user_controller = require('./controllers/user_controller')
-const login_controller = require('./controllers/auth_controller')
+const auth_controller = require('./controllers/auth_controller')
 const user_upload_metadata_controller = require('./controllers/user_upload_metadata_controller')
 
 app.use(bodyParser.json())
@@ -16,8 +17,6 @@ app.use(
     extended: true,
   })
 )
-
-app.use(express.cookieSession());
 
 app.use(session({
 	secret: 'secret',
