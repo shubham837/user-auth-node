@@ -8,6 +8,7 @@ const db = require('./db/config')
 
 const user_controller = require('./controllers/user_controller')
 const login_controller = require('./controllers/auth_controller')
+const user_upload_metadata_controller = require('./controllers/user_upload_metadata_controller')
 
 app.use(bodyParser.json())
 app.use(
@@ -37,6 +38,10 @@ app.post('/v1/users/bulk-create', user_controller.bulkCreateUser)
 
 // User profile fetch for loggedin user
 app.get('/v1/user-detail', user_controller.getUserDetail)
+
+
+// user upload metadata
+app.get('/v1/user-upload', user_upload_metadata_controller.getUserUploadMetadata)
 
 //Authentication
 app.post('/v1/login', auth_controller.login)
