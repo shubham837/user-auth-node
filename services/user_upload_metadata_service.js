@@ -23,7 +23,7 @@ const params = {
 
 const saveMetadata = (data, fileName) => {
     var metadata = {
-        "name": fileName,
+        "file_name": fileName,
         "url": data.Location
     }
     UserUploadMetadata.create(metadata)
