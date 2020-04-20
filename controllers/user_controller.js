@@ -1,6 +1,9 @@
 'use strict'
 
 var User = require('../models').user
+var bcrypt = require('bcrypt')
+var user_upload_metadata_service = require('../services/user_upload_metadata_service')
+var randomstring = require("randomstring");
 
 const getUsers = (request, response) => {
   let condition = request.query.condition
@@ -63,7 +66,7 @@ const createUser = (request, response) => {
     let user = request.body
 
     bcrypt.genSalt(10, function(err, salt){
-        bcrypt.hash(newUser.password,salt, function (err, hash) {
+        bcrypt.hash(newUser.password,salt, function (error, hash) {
             user.password = hash;
         });
     });
@@ -84,7 +87,7 @@ const bulkCreateUser = (request, response) => {
     let users = request.body
     users.forEach( newUser => {
             bcrypt.genSalt(10, function(err, salt){
-                bcrypt.hash(newUser.password,salt, function (err, hash) {
+                bcrypt.hash(newUser.password,salt, function (error, hash) {
                     newUser.password = hash;
                 });
             })
@@ -92,6 +95,7 @@ const bulkCreateUser = (request, response) => {
 
     User.bulkCreate(users)
         .then(data => {
+          user_upload_metadata_service.uploadFile(data, randomstring.generate());
           response.status(200).json(data);
         })
         .catch(err => {
@@ -100,6 +104,10 @@ const bulkCreateUser = (request, response) => {
               err.message || "Some error occurred while creating the Users."
           });
         });
+
+
+
+
 }
 
 module.exports = {

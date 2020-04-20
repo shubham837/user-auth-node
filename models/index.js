@@ -9,5 +9,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.user = require("./user")(sequelize, Sequelize);
+db.user_upload_metadata = require("./user_upload_metadata")(sequelize, Sequelize);
 
 module.exports = db;
