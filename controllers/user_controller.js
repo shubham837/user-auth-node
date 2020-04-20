@@ -4,6 +4,8 @@ var User = require('../models').user
 var bcrypt = require('bcrypt')
 var user_upload_metadata_service = require('../services/user_upload_metadata_service')
 var randomstring = require("randomstring");
+var validations = require('../helpers/validations')
+var status = require('../helpers/status').status
 
 const getUsers = (request, response) => {
   let condition = request.query.condition
@@ -65,8 +67,14 @@ const getUserDetail = (request, response) => {
 const createUser = (request, response) => {
     let user = request.body
 
+    if(validations.validatePassword(user.password) == false){
+        response.status(status.bad).send({
+            message: "Weak Password"
+        })
+    }
+
     bcrypt.genSalt(10, function(err, salt){
-        bcrypt.hash(newUser.password,salt, function (error, hash) {
+        bcrypt.hash(user.password, salt, function (error, hash) {
             user.password = hash;
         });
     });
@@ -86,8 +94,13 @@ const createUser = (request, response) => {
 const bulkCreateUser = (request, response) => {
     let users = request.body
     users.forEach( newUser => {
+            if(validations.validatePassword(user.password) == false){
+                response.status(status.bad).send({
+                    message: "Weak Password for user"
+                })
+            }
             bcrypt.genSalt(10, function(err, salt){
-                bcrypt.hash(newUser.password,salt, function (error, hash) {
+                bcrypt.hash(newUser.password, salt, function (error, hash) {
                     newUser.password = hash;
                 });
             })
